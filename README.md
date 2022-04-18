@@ -10,3 +10,7 @@ This repository contains a simple Log4Shell demonstration based on:
 - OpenJDK 8u181 (before patch for CVE-2018-3149, in order to demonstrate without deserialization vulnerabilities and Gadget chaining)
 - Spring Boot Starter Web with Spring Boot Starter Log4j2 (fixed version from December 2021, using log4j-core 2.14.1)
 - LDAP JNDI Reference Server from https://github.com/mbechler/marshalsec
+
+## Disclaimer
+
+The code and configuration files in this repository are provided for academic purposes and must only be used to learn, test your own systems or conducted allowed tests. Please remember to always follow the applicable local laws.
