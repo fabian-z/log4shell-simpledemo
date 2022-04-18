@@ -1,2 +1,2 @@
-cd vulnerable_server
+#!/bin/bash
 docker build -t log4shell_vulnerable .
